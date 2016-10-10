@@ -1,8 +1,14 @@
-E:\java\src\main\java\com\packt\webstore\domain\repository\impl\InMemoryProductRepository.java
-E:\java\src\main\java\com\packt\webstore\controller\ProductController.java
 E:\java\src\main\java\com\packt\webstore\controller\OrderController.java
 E:\java\src\main\java\com\packt\webstore\service\impl\OrderServiceImpl.java
 E:\java\src\main\java\com\packt\webstore\controller\HomeController.java
+E:\java\src\main\java\com\packt\webstore\service\CustomerService.java
+E:\java\src\main\java\com\packt\webstore\domain\repository\ProductRepository.java
+E:\java\src\main\java\com\packt\webstore\domain\repository\impl\InMemoryCustomerRepository.java
+E:\java\src\main\java\com\packt\webstore\domain\repository\impl\InMemoryProductRepository.java
+E:\java\src\main\java\com\packt\webstore\controller\ProductController.java
+E:\java\src\main\java\com\packt\webstore\domain\repository\CustomerRepository.java
+E:\java\src\main\java\com\packt\webstore\controller\CustomerController.java
+E:\java\src\main\java\com\packt\webstore\service\impl\CustomerServiceImpl.java
+E:\java\src\main\java\com\packt\webstore\domain\Customer.java
 E:\java\src\main\java\com\packt\webstore\domain\Product.java
 E:\java\src\main\java\com\packt\webstore\service\OrderService.java
-E:\java\src\main\java\com\packt\webstore\domain\repository\ProductRepository.java
