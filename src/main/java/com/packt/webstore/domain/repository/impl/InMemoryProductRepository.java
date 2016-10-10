@@ -4,13 +4,13 @@ package com.packt.webstore.domain.repository.impl;
  * Created by Evgen on 07.10.2016.
  */
 
+import com.packt.webstore.domain.Product;
+import com.packt.webstore.domain.repository.ProductRepository;
+import org.springframework.stereotype.Repository;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.springframework.stereotype.Repository;
-import com.packt.webstore.domain.Product;
-import com.packt.webstore.domain.repository.ProductRepository;
 
 @Repository
 public class InMemoryProductRepository implements ProductRepository {
@@ -42,5 +42,20 @@ public class InMemoryProductRepository implements ProductRepository {
 
     public List<Product> getAllProducts() {
         return listOfProducts;
+    }
+
+    @Override
+    public Product getProductById(String productID) {
+        Product productById = null;
+        for (Product product : listOfProducts) {
+            if (product != null && product.getProductId() != null && product.getProductId().equals(product)) {
+                productById = product;
+                break;
+            }
+            if (productById == null) {
+                throw new IllegalArgumentException("No products found with the   product id: " + productID);
+            }
+        }
+        return productById;
     }
 }

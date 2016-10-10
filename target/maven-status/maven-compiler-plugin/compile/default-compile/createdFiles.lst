@@ -1,5 +1,8 @@
 com\packt\webstore\controller\ProductController.class
+com\packt\webstore\service\impl\OrderServiceImpl.class
+com\packt\webstore\service\OrderService.class
 com\packt\webstore\domain\repository\ProductRepository.class
 com\packt\webstore\domain\Product.class
+com\packt\webstore\controller\OrderController.class
 com\packt\webstore\controller\HomeController.class
 com\packt\webstore\domain\repository\impl\InMemoryProductRepository.class
