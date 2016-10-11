@@ -5,6 +5,7 @@
   Time: 13:53
   To change this template use File | Settings | File Templates.
 --%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -26,7 +27,7 @@
 </section>
 <section class="container">
     <div class="row">
-        <c:forEach items="${customer}" var="customer">
+        <c:forEach items="${customers}" var="customer">
             <div class="col-sm-6 col-md-3" style="padding-bottom: 15px">
                 <div class="thumbnail">
                     <div class="caption">
