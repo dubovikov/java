@@ -9,8 +9,7 @@ import com.packt.webstore.domain.repository.ProductRepository;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Repository
 public class InMemoryProductRepository implements ProductRepository {
@@ -57,5 +56,40 @@ public class InMemoryProductRepository implements ProductRepository {
             }
         }
         return productById;
+    }
+
+    @Override
+    public Set<Product> getProductByFilter(Map<String, List<String>> filterParam) {
+        Set<Product> productsByBrand = new HashSet<Product>();
+        Set<Product> productsByCategory = new HashSet<Product>();
+        Set<String> criterias = filterParam.keySet();
+        if (criterias.contains("brand")) {
+            for (String brandName : filterParam.get("brand")) {
+                for (Product product : listOfProducts) {
+                    if (brandName.equalsIgnoreCase(product.getManufacturer())) {
+                        productsByBrand.add(product);
+                    }
+                }
+            }
+        }
+        if (criterias.contains("category"))
+        {
+            for (String category:filterParam.get("category")){
+                productsByCategory.addAll(this.getProductByCategory(category));
+                            }
+        }
+        productsByCategory.retainAll(productsByBrand);
+        return productsByCategory;
+    }
+
+    @Override
+    public List<Product> getProductByCategory(String category) {
+        List<Product> productByCategory = new ArrayList<Product>();
+        for (Product product : listOfProducts) {
+            if (category.equalsIgnoreCase(product.getCategory())) {
+                productByCategory.add(product);
+            }
+        }
+        return productByCategory;
     }
 }
