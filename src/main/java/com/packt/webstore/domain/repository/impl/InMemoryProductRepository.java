@@ -15,6 +15,11 @@ import java.util.*;
 public class InMemoryProductRepository implements ProductRepository {
     private List<Product> listOfProducts = new ArrayList<Product>();
 
+    @Override
+    public void addProduct(Product product) {
+        listOfProducts.add(product);
+    }
+
     public InMemoryProductRepository() {
         Product iphone = new Product("P1234", "iPhone 5s", new
                 BigDecimal(500));
