@@ -11,6 +11,9 @@ import java.util.Map;
 import com.packt.webstore.service.ProductService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import com.packt.webstore.domain.Product;
 import com.packt.webstore.domain.repository.ProductRepository;
@@ -64,9 +67,18 @@ public class ProductController {
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String processAddNewProductFrom(@ModelAttribute("newProduct") Product newProduct) {
+    public String processAddNewProductFrom(@ModelAttribute("newProduct") Product newProduct, BindingResult bindingResult) {
+        String[] suppressedFields = bindingResult.getSuppressedFields();
+        if (suppressedFields.length > 0) {
+            throw new RuntimeException("Attempting to bind disallowed fields:" + StringUtils.arrayToCommaDelimitedString(suppressedFields));
+        }
         productService.addProduct(newProduct);
         return "redirect:/products";
+    }
+
+    @InitBinder
+    public void initialiseBinder(WebDataBinder webDataBinder) {
+        webDataBinder.setDisallowedFields("unitsInOrder", "discontinued");
     }
 
 }
