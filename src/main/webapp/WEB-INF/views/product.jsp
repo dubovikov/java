@@ -12,6 +12,7 @@
         <div class="container">
             <h1>Products</h1>
         </div>
+        <a href="<c:url value="/j_spring_security_logout" />" class="btn btn-danger btn-mini pull-right">logout</a>
     </div>
 </section>
 <section class="container">
