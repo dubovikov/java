@@ -24,21 +24,23 @@
                     <h3 class="panel-title">Please sign in</h3>
                 </div>
                 <div class="panel-body">
-                    <c:if test="${not empty error}">
-                        <div class="alert alert-danger">
-                            <spring:message code="AbstractUserDetailsAuthenticationProvider.badCredentials"/><br/>
-                        </div>
+                    <c:if test="${not empty param.login_error}">
+  <span style="color: red; ">
+    Your login attempt was not successful, try again.<br/><br/>
+    Reason: <c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}"/>
+  </span>
                     </c:if>
-                    <form action="<c:url value= "/j_spring_security_check"></c:url>" method="post">
+                    <form action="<c:url value='login'/>" method="post">
                         <fieldset>
                             <div class="form-group">
-                                <input class="form-control" placeholder="User Name" name='j_username' type="text">
+                                <input class="form-control" placeholder="User Name" name='username'  type="text">
                             </div>
                             <div class="form-group">
-                                <input class="form-control" placeholder="Password" name='j_password' type="password"
-                                       value="">
+                                <input class="form-control" placeholder="Password" name='password' type="password">
                             </div>
                             <input class="btn btn-lg btn-success btn-block" type="submit" value="Login">
+                            <input type="hidden" name="<c:out value="${_csrf.parameterName}"/>"
+                                   value="<c:out value="${_csrf.token}"/>"/>
                         </fieldset>
                     </form>
                 </div>
