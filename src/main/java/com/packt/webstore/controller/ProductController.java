@@ -4,10 +4,13 @@ package com.packt.webstore.controller;
  * Created by Evgen on 07.10.2016.
  */
 
+import java.io.File;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
+import java.io.File;
 
+import com.packt.webstore.exception.NoProductsFoundUnderCategoryException;
 import com.packt.webstore.service.ProductService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +21,10 @@ import org.springframework.web.bind.annotation.*;
 import com.packt.webstore.domain.Product;
 import com.packt.webstore.domain.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
 
 
 @Controller
@@ -43,6 +50,10 @@ public class ProductController {
     @RequestMapping("/{category}")
     public String getProductByCategory(Model model,
                                        @PathVariable("category") String productCategory) {
+        List<Product> products = productService.getProductByCategory(productCategory);
+        if (products == null || products.isEmpty()) {
+          throw new NoProductsFoundUnderCategoryException();
+        }
         model.addAttribute("products", productService.getProductByCategory(productCategory));
         return "products";
     }
@@ -67,10 +78,19 @@ public class ProductController {
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String processAddNewProductFrom(@ModelAttribute("newProduct") Product newProduct, BindingResult bindingResult) {
+    public String processAddNewProductFrom(@ModelAttribute("newProduct") Product newProduct, BindingResult bindingResult, HttpServletRequest request) {
         String[] suppressedFields = bindingResult.getSuppressedFields();
         if (suppressedFields.length > 0) {
             throw new RuntimeException("Attempting to bind disallowed fields:" + StringUtils.arrayToCommaDelimitedString(suppressedFields));
+        }
+        MultipartFile productImage = newProduct.getProductImage();
+        String rootDirectory = request.getSession().getServletContext().getRealPath("/");
+        if (productImage != null && !productImage.isEmpty()) {
+            try {
+                productImage.transferTo(new File(rootDirectory + "resources\\images\\" + newProduct.getProductId() + ".png"));
+            } catch (Exception e) {
+                throw new RuntimeException("Product Image saving failed", e);
+            }
         }
         productService.addProduct(newProduct);
         return "redirect:/products";
@@ -78,7 +98,7 @@ public class ProductController {
 
     @InitBinder
     public void initialiseBinder(WebDataBinder webDataBinder) {
-        webDataBinder.setDisallowedFields("unitsInOrder", "discontinued");
+        webDataBinder.setAllowedFields("productId", "name", "unitPrice", "description", "manufacturer", "category", "unitsInStock", "productImage");
     }
 
 }
