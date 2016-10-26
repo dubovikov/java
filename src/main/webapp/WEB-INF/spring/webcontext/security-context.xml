@@ -9,9 +9,14 @@
 	http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <http use-expressions="false">
+        <intercept-url pattern="/*" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <intercept-url pattern="/products/add" access="ROLE_ADMIN"/>
+        <intercept-url pattern="/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <form-login login-page="/login" default-target-url="/products/add" authentication-failure-url="/loginfailed"/>
         <logout logout-success-url="/logout" />
+        <remember-me />
+        <headers/>
+        <csrf disabled="true"/>
     </http>
     <authentication-manager>
         <authentication-provider>

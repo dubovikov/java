@@ -11,7 +11,9 @@ import java.util.Map;
 import java.io.File;
 
 import com.packt.webstore.exception.NoProductsFoundUnderCategoryException;
+import com.packt.webstore.exception.ProductNotFoundException;
 import com.packt.webstore.service.ProductService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -22,9 +24,11 @@ import com.packt.webstore.domain.Product;
 import com.packt.webstore.domain.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 
 @Controller
@@ -52,7 +56,7 @@ public class ProductController {
                                        @PathVariable("category") String productCategory) {
         List<Product> products = productService.getProductByCategory(productCategory);
         if (products == null || products.isEmpty()) {
-          throw new NoProductsFoundUnderCategoryException();
+            throw new NoProductsFoundUnderCategoryException();
         }
         model.addAttribute("products", productService.getProductByCategory(productCategory));
         return "products";
@@ -78,7 +82,10 @@ public class ProductController {
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String processAddNewProductFrom(@ModelAttribute("newProduct") Product newProduct, BindingResult bindingResult, HttpServletRequest request) {
+    public String processAddNewProductFrom(@ModelAttribute("newProduct") @Valid Product newProduct, BindingResult bindingResult, HttpServletRequest request) {
+       if (bindingResult.hasErrors()){
+           return "addProduct";
+       }
         String[] suppressedFields = bindingResult.getSuppressedFields();
         if (suppressedFields.length > 0) {
             throw new RuntimeException("Attempting to bind disallowed fields:" + StringUtils.arrayToCommaDelimitedString(suppressedFields));
@@ -98,7 +105,21 @@ public class ProductController {
 
     @InitBinder
     public void initialiseBinder(WebDataBinder webDataBinder) {
-        webDataBinder.setAllowedFields("productId", "name", "unitPrice", "description", "manufacturer", "category", "unitsInStock", "productImage");
+        webDataBinder.setAllowedFields("productId", "name", "unitPrice", "description", "manufacturer", "category", "unitsInStock", "productImage","language");
+    }
+
+    @ExceptionHandler(ProductNotFoundException.class)
+    public ModelAndView hendleError(HttpServletRequest request, ProductNotFoundException exeption) {
+        ModelAndView mav=new ModelAndView();
+        mav.addObject("invalidProductId", exeption.getProductId());
+        mav.addObject("exception",exeption);
+        mav.addObject("url",request.getRequestURL()+"?"+request.getQueryString());
+        mav.setViewName("productNotFound");
+        return mav;
+    }
+    @RequestMapping("/invalidPromoCode")
+    public String invalidPromoCode(){
+        return "invalidPromoCode";
     }
 
 }
