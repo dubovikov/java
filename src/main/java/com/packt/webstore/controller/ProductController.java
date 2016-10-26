@@ -55,9 +55,7 @@ public class ProductController {
     public String getProductByCategory(Model model,
                                        @PathVariable("category") String productCategory) {
         List<Product> products = productService.getProductByCategory(productCategory);
-        if (products == null || products.isEmpty()) {
-            throw new NoProductsFoundUnderCategoryException();
-        }
+        if (products == null || products.isEmpty()) throw new NoProductsFoundUnderCategoryException();
         model.addAttribute("products", productService.getProductByCategory(productCategory));
         return "products";
     }
@@ -105,7 +103,7 @@ public class ProductController {
 
     @InitBinder
     public void initialiseBinder(WebDataBinder webDataBinder) {
-        webDataBinder.setAllowedFields("productId", "name", "unitPrice", "description", "manufacturer", "category", "unitsInStock", "productImage","language");
+        webDataBinder.setAllowedFields("productId", "name", "unitPrice", "description", "manufacturer", "category", "unitsInStock","condition", "productImage","language");
     }
 
     @ExceptionHandler(ProductNotFoundException.class)

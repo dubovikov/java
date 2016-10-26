@@ -57,10 +57,11 @@ public class InMemoryProductRepository implements ProductRepository {
                 productById = product;
                 break;
             }
+        }
             if (productById == null) {
                 throw new ProductNotFoundException("No products found with the   product id: " + productID);
             }
-        }
+
         return productById;
     }
 
