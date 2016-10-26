@@ -39,6 +39,7 @@
                 <label class="control-label col-lg-2" for="name">name</label>
                 <div class="col-lg-10">
                     <form:input id="name" path="name" type="text" class="form:input-large"/>
+                    <form:errors path="name" cssClass="text-danger"/>
                 </div>
             </div>
 
@@ -47,6 +48,7 @@
                 <div class="col-lg-10">
                     <div class="form:input-prepend">
                         <form:input id="unitPrice" path="unitPrice" type="text" class="form:input-large"/>
+                        <form:errors path="unitPrice" cssClass="text-danger"/>
                     </div>
                 </div>
             </div>
