@@ -13,11 +13,14 @@ import java.io.File;
 import com.packt.webstore.exception.NoProductsFoundUnderCategoryException;
 import com.packt.webstore.exception.ProductNotFoundException;
 import com.packt.webstore.service.ProductService;
+import com.packt.webstore.validator.ProductValidator;
+import com.packt.webstore.validator.UnitsInStockValidator;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import com.packt.webstore.domain.Product;
@@ -37,6 +40,8 @@ public class ProductController {
 
     @Autowired
     private ProductService productService;
+    @Autowired
+    private ProductValidator productValidator;
 
 
     @RequestMapping
@@ -81,9 +86,9 @@ public class ProductController {
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public String processAddNewProductFrom(@ModelAttribute("newProduct") @Valid Product newProduct, BindingResult bindingResult, HttpServletRequest request) {
-       if (bindingResult.hasErrors()){
-           return "addProduct";
-       }
+        if (bindingResult.hasErrors()) {
+            return "addProduct";
+        }
         String[] suppressedFields = bindingResult.getSuppressedFields();
         if (suppressedFields.length > 0) {
             throw new RuntimeException("Attempting to bind disallowed fields:" + StringUtils.arrayToCommaDelimitedString(suppressedFields));
@@ -103,20 +108,23 @@ public class ProductController {
 
     @InitBinder
     public void initialiseBinder(WebDataBinder webDataBinder) {
-        webDataBinder.setAllowedFields("productId", "name", "unitPrice", "description", "manufacturer", "category", "unitsInStock","condition", "productImage","language");
+        webDataBinder.setValidator(productValidator);
+        webDataBinder.setAllowedFields("productId", "name", "unitPrice", "description", "manufacturer", "category", "unitsInStock", "condition", "productImage", "language");
+
     }
 
     @ExceptionHandler(ProductNotFoundException.class)
     public ModelAndView hendleError(HttpServletRequest request, ProductNotFoundException exeption) {
-        ModelAndView mav=new ModelAndView();
+        ModelAndView mav = new ModelAndView();
         mav.addObject("invalidProductId", exeption.getProductId());
-        mav.addObject("exception",exeption);
-        mav.addObject("url",request.getRequestURL()+"?"+request.getQueryString());
+        mav.addObject("exception", exeption);
+        mav.addObject("url", request.getRequestURL() + "?" + request.getQueryString());
         mav.setViewName("productNotFound");
         return mav;
     }
+
     @RequestMapping("/invalidPromoCode")
-    public String invalidPromoCode(){
+    public String invalidPromoCode() {
         return "invalidPromoCode";
     }
 

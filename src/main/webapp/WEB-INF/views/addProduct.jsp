@@ -23,10 +23,10 @@
 </section>
 <section class="container">
     <form:form  modelAttribute="newProduct" class="form-horizontal" enctype="multipart/form-data">
-        <form:errors path="*" cssClass="alert alert-danger" element="div"/>
+
         <fieldset>
             <legend>Add new product</legend>
-
+            <form:errors path="*" cssClass="alert alert-danger" element="div"/>
             <div class="form-group">
                 <label class="control-label col-lg-2 col-lg-2" for="productId"><spring:message code="addProduct.form.productId.label"/></label>
                 <div class="col-lg-10">
