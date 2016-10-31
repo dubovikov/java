@@ -3,10 +3,12 @@ package com.packt.webstore.service.impl;
 import com.packt.webstore.domain.Cart;
 import com.packt.webstore.domain.repository.CartRepository;
 import com.packt.webstore.service.CartService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class CartServiceImpl implements CartService {
+    @Autowired
     private CartRepository cartRepository;
 
     @Override
@@ -27,6 +29,5 @@ public class CartServiceImpl implements CartService {
     @Override
     public void delete(String cartId) {
         cartRepository.delete(cartId);
-
     }
 }
