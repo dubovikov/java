@@ -15,11 +15,14 @@ public class ProductImageValidator implements Validator {
         return Product.class.isAssignableFrom(aClass);
     }
 
+    public void setAllowedSize(long allowedSize) {
+        this.allowedSize = allowedSize;
+    }
 
     @Override
     public void validate(Object o, Errors errors) {
         Product product = (Product) o;
-        if (/*allowedSize <= product.getProductImage().getSize() || */product.getProductImage().isEmpty()) {
+        if (allowedSize < product.getProductImage().getSize() || product.getProductImage().isEmpty()) {
             errors.rejectValue("productImage", "com.packt.webstore.validator.ProductImageValidator.message");
         }
     }

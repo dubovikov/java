@@ -35,11 +35,13 @@ http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
         <property name = "springValidator">
             <set>
                 <ref bean = "unitsInStockValidator"/>
-                <ref bean = "ProductImageValidator"/>
+                <ref bean = "productImageValidator"/>
             </set>
         </property>
     </bean>
-    <bean id="ProductImageValidator" class="com.packt.webstore.validator.ProductImageValidator"/>
+    <bean id="productImageValidator" class="com.packt.webstore.validator.ProductImageValidator">
+            <property name="allowedSize" value="25000"/>
+    </bean>
     <bean id="unitsInStockValidator" class="com.packt.webstore.validator.UnitsInStockValidator"/>
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/views/"/>
