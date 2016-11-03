@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<b:beans xmlns="http://www.springframework.org/schema/security"
+         xmlns:b="http://www.springframework.org/schema/beans"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="
+	http://www.springframework.org/schema/security
+	http://www.springframework.org/schema/security/spring-security.xsd
+	http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <http use-expressions="false">
+        <intercept-url pattern="/*" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <intercept-url pattern="/products/add" access="ROLE_ADMIN"/>
+        <intercept-url pattern="/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <form-login login-page="/login" default-target-url="/products/add" authentication-failure-url="/loginfailed"/>
+        <logout logout-success-url="/logout" />
+        <remember-me />
+        <headers/>
+        <csrf disabled="true"/>
+    </http>
+    <authentication-manager>
+        <authentication-provider>
+            <user-service>
+                <user name="Admin" password="Admin123" authorities="ROLE_ADMIN" />
+            </user-service>
+        </authentication-provider>
+    </authentication-manager>
+</b:beans>
