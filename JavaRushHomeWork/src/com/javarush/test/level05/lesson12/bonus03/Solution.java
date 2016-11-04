@@ -14,17 +14,25 @@ public class Solution
     public static void main(String[] args) throws Exception
     {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        int maximum = 0;
 
-        //напишите тут ваш код
+        int N = Integer.parseInt(reader.readLine());
+        if (N > 0)
+        {
+            int t;
+            int maximum = Integer.parseInt(reader.readLine());
+            N--;
+//        int c = Integer.parseInt(reader.readLine());
+            //напишите тут ваш код
+            while (N > 0)
+            {
+                N--;
+                t = Integer.parseInt(reader.readLine());
+                maximum = (t > maximum) ? t : maximum;
+            }
+            System.out.println(maximum);
+        }
 
 
 
-
-        System.out.println(maximum);
-    }
-    public static int max(int a, int b)
-    {
-        return a< b ? b : a;
     }
 }
