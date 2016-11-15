@@ -71,7 +71,7 @@ public class Solution
 
     }
     public static class Dog   {
-        
+
     }
     //напишите тут ваш код
 }
