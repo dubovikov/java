@@ -51,6 +51,35 @@ public class Solution
     public static void sort(String[] array)
     {
         //напишите тут ваш код
+        String temp;
+         for (int i = 0; i < array.length; i++)
+            if (isNumber(array[i]))
+            {
+                for (int j = array.length - 1; j > i; j--)
+                    if (isNumber(array[j]))
+                    {
+                        if (!isGreaterThan(array[i], array[j]))
+                        {
+                            temp = array[i];
+                            array[i] = array[j];
+                            array[j] = temp;
+                        }
+
+                    }
+            }
+            else{
+                for (int j = array.length - 1; j > i; j--)
+                    if (!isNumber(array[j]))
+                    {
+                        if (isGreaterThan(array[i], array[j]))
+                        {
+                            temp = array[i];
+                            array[i] = array[j];
+                            array[j] = temp;
+                        }
+
+                    }
+            }
     }
 
     //Метод для сравнения строк: 'а' больше чем 'b'
@@ -70,7 +99,7 @@ public class Solution
         {
             char c = chars[i];
             if ((i != 0 && c == '-') //есть '-' внутри строки
-                    || (!Character.isDigit(c) && c != '-') ) // не цифра и не начинается с '-'
+                    || (!Character.isDigit(c) && c != '-')) // не цифра и не начинается с '-'
             {
                 return false;
             }
