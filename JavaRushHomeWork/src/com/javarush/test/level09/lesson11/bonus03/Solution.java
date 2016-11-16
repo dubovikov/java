@@ -52,13 +52,16 @@ public class Solution
     {
         //напишите тут ваш код
         String temp;
-         for (int i = 0; i < array.length; i++)
+
+        for (int i = 0; i < array.length; i++)
             if (isNumber(array[i]))
             {
+
                 for (int j = array.length - 1; j > i; j--)
                     if (isNumber(array[j]))
                     {
-                        if (!isGreaterThan(array[i], array[j]))
+
+                        if (Integer.parseInt(array[j]) >Integer.parseInt(array[i]))
                         {
                             temp = array[i];
                             array[i] = array[j];
@@ -66,8 +69,8 @@ public class Solution
                         }
 
                     }
-            }
-            else{
+            } else
+            {
                 for (int j = array.length - 1; j > i; j--)
                     if (!isNumber(array[j]))
                     {
