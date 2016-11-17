@@ -12,7 +12,7 @@ public class InMemoryCustomerRepository implements CustomerRepository {
 private List<Customer> listOfCustomer=new ArrayList<Customer>();
 
     public InMemoryCustomerRepository() {
-        Customer first=new Customer("C1234","IVan","Ukraine","123");
+        Customer first=new Customer("C1234","IVan");
         listOfCustomer.add(first);
     }
 

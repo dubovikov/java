@@ -10,14 +10,6 @@
 </head>
 <body>
 <section class="container" ng-app="cartApp">
-    <div class="jumbotron">
-        <div class="container">
-            <h1>Products</h1>
-        </div>
-        <a href="<c:url value='login' />" class="btn btn-danger btn-mini pull-right">logout</a>
-    </div>
-</section>
-<section class="container" ng-app="cartApp">
     <div class="row">
         <div class="col-md-5">
             <img src="<c:url value="/resource/images/${product.productId}.png">

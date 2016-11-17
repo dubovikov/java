@@ -1,10 +1,14 @@
 package com.packt.webstore.domain;
 
-public class Customer {
+import java.io.Serializable;
+
+public class Customer implements Serializable{
+
+    private static final long serialVersionUID = -2231541779450990917L;
     private String customerId;
     private String name;
-    private String address;
-    private String noOfOrdersMade;
+    private Address billingAdress;
+    private String phoneNumer;
 
     public void setCustomerId(String customerId) {
         this.customerId = customerId;
@@ -12,24 +16,6 @@ public class Customer {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public void setNoOfOrdersMade(String noOfOrdersMade) {
-        this.noOfOrdersMade = noOfOrdersMade;
-    }
-
-    public String getNoOfOrdersMade() {
-
-        return noOfOrdersMade;
-    }
-
-    public String getAddress() {
-
-        return address;
     }
 
     public String getName() {
@@ -43,13 +29,53 @@ public class Customer {
     }
 
     public Customer() {super();
+        this.billingAdress=new Address();
 
     }
 
-    public Customer(String customerId, String name, String address, String noOfOrdersMade) {
+    public Address getBillingAdress() {
+        return billingAdress;
+    }
+
+    public void setBillingAdress(Address billingAdress) {
+        this.billingAdress = billingAdress;
+    }
+
+    public String getPhoneNumer() {
+        return phoneNumer;
+    }
+
+    public void setPhoneNumer(String phoneNumer) {
+        this.phoneNumer = phoneNumer;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Customer customer = (Customer) o;
+
+        if (!customerId.equals(customer.customerId)) return false;
+        if (!name.equals(customer.name)) return false;
+        if (!billingAdress.equals(customer.billingAdress)) return false;
+        return phoneNumer.equals(customer.phoneNumer);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = customerId.hashCode();
+        result = 31 * result + name.hashCode();
+        result = 31 * result + billingAdress.hashCode();
+        result = 31 * result + phoneNumer.hashCode();
+        return result;
+    }
+
+    public Customer(String customerId, String name) {
+        this();
         this.customerId = customerId;
         this.name = name;
-        this.address = address;
-        this.noOfOrdersMade = noOfOrdersMade;
+
     }
 }
